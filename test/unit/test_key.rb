@@ -14,7 +14,7 @@ class KeyTest < Test::Unit::TestCase
 
   context "The Key Class" do
     should "have the native types defined" do
-      Key::NativeTypes.should == [String, Float, Time, Integer, Boolean, Array, Hash]
+      Key::NativeTypes.should == [String, Float, BigDecimal, Time, Integer, Boolean, Array, Hash]
     end
   end
 
@@ -93,6 +93,13 @@ class KeyTest < Test::Unit::TestCase
       key = Key.new(:foo, Float)
       [21, 21.0, '21'].each do |a|
         key.set(a).should == 21.0
+      end
+    end
+
+    should "correctly typecast BigDecimals" do
+      key = Key.new(:foo, BigDecimal)
+      [21, 21.0, '21'].each do |a|
+        key.set(a).should == BigDecimal.new('21')
       end
     end
 
